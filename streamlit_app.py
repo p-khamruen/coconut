@@ -29,5 +29,18 @@ if video_file is not None:
         os.remove(tfile.name)
         st.success("ลบไฟล์แล้ว")
         
+
 import ultralytics
-ultralytics.checks()
+import io
+import contextlib
+
+st.title("Ultralytics Checks")
+
+# Capture stdout from ultralytics.checks()
+output = io.StringIO()
+with contextlib.redirect_stdout(output):
+    ultralytics.checks()
+
+# Show the output in Streamlit
+st.code(output.getvalue(), language='bash')
+
