@@ -29,7 +29,7 @@ if video_file is not None:
         os.remove(tfile.name)
         st.success("ลบไฟล์แล้ว")
         
-
+from ultralytics import YOLO
 st.title("YOLOv8 Check")
 
 try:
