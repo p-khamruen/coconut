@@ -28,3 +28,6 @@ if video_file is not None:
     if st.button("ลบไฟล์ชั่วคราว"):
         os.remove(tfile.name)
         st.success("ลบไฟล์แล้ว")
+        
+import ultralytics
+ultralytics.checks()
