@@ -1,40 +1,29 @@
-import streamlit as st
-import tempfile
 import os
+import sys
+import streamlit as st
 
-st.title("อัปโหลดวิดีโอเพื่อประมวลผล")
-
-# รับวิดีโอจากผู้ใช้
-video_file = st.file_uploader("อัปโหลดไฟล์วิดีโอ (.mp4)", type=["mp4", "mov", "avi"])
-
-if video_file is not None:
-    # สร้างไฟล์ชั่วคราว
-    tfile = tempfile.NamedTemporaryFile(delete=False, suffix='.mp4')
-    tfile.write(video_file.read())
-
-    st.success("อัปโหลดสำเร็จ")
-    st.video(tfile.name)
-
-    # ===== ทำงานต่อกับวิดีโอนี้ได้ เช่น cv2.VideoCapture =====
-    import cv2
-
-    cap = cv2.VideoCapture(tfile.name)
-    st.write("จำนวนเฟรมทั้งหมด:", int(cap.get(cv2.CAP_PROP_FRAME_COUNT)))
-
-    # ปิดการใช้งาน
-    cap.release()
-
-    # ลบไฟล์หลังจากเสร็จ (ถ้าต้องการ)
-    if st.button("ลบไฟล์ชั่วคราว"):
-        os.remove(tfile.name)
-        st.success("ลบไฟล์แล้ว")
-        
-from ultralytics import YOLO
-st.title("YOLOv8 Check")
+# Setup ByteTrack path
+BYTE_DIR = os.path.join(os.getcwd(), "ByteTrack")
+if BYTE_DIR not in sys.path:
+    sys.path.append(BYTE_DIR)
 
 try:
-    model = YOLO("yolov8n.pt")  # small model for testing
-    st.success("YOLO model loaded successfully!")
+    import yolox
+    from loguru import logger
+    logger.info(f"YOLOX Version: {yolox.__version__}")
 except Exception as e:
-    st.error(f"Failed to load model: {e}")
+    st.error(f"Failed to load YOLOX: {e}")
 
+# UI example for uploading video file
+st.title("ByteTrack + YOLOX Streamlit App")
+
+uploaded_file = st.file_uploader("Upload a video", type=["mp4", "avi", "mov"])
+if uploaded_file is not None:
+    temp_file_path = os.path.join("temp", uploaded_file.name)
+    os.makedirs("temp", exist_ok=True)
+    with open(temp_file_path, "wb") as f:
+        f.write(uploaded_file.read())
+    st.success(f"Saved video to {temp_file_path}")
+
+    # Placeholder for ByteTrack inference
+    st.info("Tracking is not implemented in this stub. Add your YOLOX + ByteTrack code here.")
