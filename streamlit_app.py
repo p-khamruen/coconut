@@ -30,17 +30,11 @@ if video_file is not None:
         st.success("ลบไฟล์แล้ว")
         
 
-import ultralytics
-import io
-import contextlib
+st.title("YOLOv8 Check")
 
-st.title("Ultralytics Checks")
-
-# Capture stdout from ultralytics.checks()
-output = io.StringIO()
-with contextlib.redirect_stdout(output):
-    ultralytics.checks()
-
-# Show the output in Streamlit
-st.code(output.getvalue(), language='bash')
+try:
+    model = YOLO("yolov8n.pt")  # small model for testing
+    st.success("YOLO model loaded successfully!")
+except Exception as e:
+    st.error(f"Failed to load model: {e}")
 
