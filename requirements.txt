@@ -2,5 +2,5 @@ numpy
 pandas
 streamlit
 ultralytics<=8.3.40
-torch==2.0.1
+torch
 opencv-python-headless
