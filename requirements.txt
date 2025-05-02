@@ -1,6 +1,6 @@
 numpy
 pandas
 streamlit
-ultralytics==8.0.20
+ultralytics==8.0.8
 torch==2.0.1
 opencv-python-headless
